@@ -1,0 +1,525 @@
+@font-face {
+    font-family: bold;
+    src: url("/AeonikTRIAL-Bold.otf");
+}
+
+/* Mixins for Responsiveness */
+@mixin mobile {
+    @media (max-width: 600px) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (max-width: 1024px) {
+        @content;
+    }
+}
+
+* {
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+    font-family: bold;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    overflow: hidden; /* Prevent body scroll when modal is open */
+}
+
+main {
+    height: 100%;
+    width: 100%;
+    background-color: #f47a7a;
+    overflow-y: auto; /* Allow scrolling for main content */
+
+    #content {
+        min-height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: flex-start; /* Changed from center to allow scrolling */
+        align-items: center;
+        flex-direction: column;
+        padding: 20px 0; /* Add padding for mobile breathing room */
+
+        #profile {
+            height: 250px;
+            width: 90%;
+            max-width: 1200px; /* Cap width on large screens */
+            background-color: #FFCDC9;
+            border-radius: 20px;
+            box-shadow: 0px 0px 50px 0px rgba(255, 205, 201, 0.5);
+            background-image: url("https://images.unsplash.com/photo-1605158080227-fd61e78bdc8b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+            background-size: cover;
+            background-position: bottom;
+            transition: all ease 0.5s;
+            position: relative;
+            flex-shrink: 0;
+
+            #header1 {
+                width: 100%;
+                height: 100%;
+            }
+
+            #date {
+                color: white;
+                font-size: clamp(20px, 4vw, 50px); /* Responsive font */
+                padding: 20px;
+                text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            }
+
+            #time {
+                font-size: clamp(30px, 5vw, 50px);
+                color: white;
+                font-weight: 100;
+                position: absolute;
+                top: 40%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                transition: all ease 0.5s;
+                text-align: center;
+                width: 100%;
+                text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            }
+
+            #place {
+                font-size: clamp(30px, 5vw, 50px);
+                color: white;
+                font-weight: 100;
+                position: absolute;
+                top: 40%;
+                left: 50%;
+                transform: translate(-50%, 50%);
+                transition: all ease 0.5s;
+                text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            }
+
+            h3 {
+                color: transparent; /* Keep logic, but maybe show on mobile? */
+                font-size: 30px;
+                transition: all ease 0.5s;
+                position: absolute;
+                top: 50%;
+                right: 3%;
+                transform: translateY(-50%);
+                
+                @include mobile {
+                    display: none; /* Hide temp on mobile to save space or adjust position */
+                }
+            }
+        }
+
+        #profile:hover {
+            height: 300px;
+            width: 95%;
+
+            #time {
+                top: 50%;
+                left: 3%;
+                transform: translate(0, 0);
+                text-align: left;
+                width: auto;
+            }
+
+            #place {
+                top: 70%;
+                left: 3%;
+                transform: translate(0, 0);
+            }
+
+            h3 {
+                color: white;
+            }
+        }
+
+        #allElems {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            width: 90%;
+            max-width: 1200px;
+            padding-bottom: 50px;
+
+            .elem {
+                margin-top: 40px;
+                height: 300px;
+                width: 260px;
+                border-radius: 20px;
+                position: relative;
+                overflow: hidden;
+                cursor: pointer;
+                transition: all 0.3s ease-in-out;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+
+                @include tablet {
+                    width: 45%; /* 2 per row on tablets */
+                }
+
+                @include mobile {
+                    width: 100%; /* 1 per row on mobile */
+                    height: 200px;
+                }
+
+                img {
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                }
+
+                h1 {
+                    position: absolute;
+                    bottom: 10%;
+                    right: 5%;
+                    white-space: nowrap;
+                    color: rgb(255, 255, 255);
+                    font-size: 24px;
+                    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+                }
+            }
+        }
+    }
+
+    /* Modal / Pages Section */
+    .allElem {
+        height: 100%;
+        width: 100%;
+        background-color: #FFCDC9;
+        position: fixed; /* Fixed to cover screen */
+        top: 0;
+        left: 0;
+        z-index: 100;
+        display: none;
+        overflow-y: auto; /* Enable scrolling within the modal */
+        padding-bottom: 50px;
+
+        .close {
+            margin-top: 20px;
+            position: absolute;
+            background-color: transparent;
+            color: crimson;
+            top: 10px;
+            right: 20px;
+            font-size: 16px;
+            padding: 7px 17px;
+            border: 3px solid crimson;
+            border-radius: 15px;
+            cursor: pointer;
+            z-index: 101;
+            
+            @include mobile {
+                top: 10px;
+                right: 10px;
+                padding: 5px 12px;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+
+/* --- TO DO LIST --- */
+#TODO {
+    h1 {
+        margin: 20px;
+        margin-top: 60px; /* Space for close button */
+        font-size: clamp(40px, 8vw, 70px);
+        font-weight: 100;
+        text-align: center;
+    }
+
+    #main {
+        height: auto;
+        min-height: 75%;
+        width: 90%;
+        max-width: 1200px;
+        margin: auto;
+        border-radius: 20px;
+        display: flex; /* Flexbox instead of float */
+        gap: 20px;
+        
+        @include mobile {
+            flex-direction: column; /* Stack on mobile */
+        }
+
+        #left {
+            height: auto;
+            width: 40%;
+            
+            @include mobile {
+                width: 100%;
+            }
+
+            form {
+                height: 100%;
+                width: 100%;
+                background-color: #f47a7a;
+                border-radius: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 20px;
+                padding: 30px 0;
+
+                input {
+                    height: 45px;
+                    width: 90%;
+                    border-radius: 10px;
+                    border: none;
+                    padding: 15px;
+                    font-size: 18px;
+                    outline: none;
+                    background-color: #FEEAC9;
+                }
+
+                textarea {
+                    border-radius: 10px;
+                    border: none;
+                    padding: 12px;
+                    font-size: 18px;
+                    width: 90%;
+                    height: 200px;
+                    resize: none;
+                    outline: none;
+                    background-color: #FEEAC9;
+                }
+
+                button {
+                    height: 50px;
+                    width: 50%;
+                    border-radius: 15px;
+                    border: none;
+                    background-color: crimson;
+                    color: white;
+                    font-size: 20px;
+                    cursor: pointer;
+                    transition: all ease 0.3s;
+                }
+            }
+        }
+
+        #right {
+            height: 500px; /* Fixed height for scrolling tasks */
+            width: 60%;
+            background-color: #f47a7a;
+            border-radius: 20px;
+            overflow-y: auto;
+            
+            @include mobile {
+                width: 100%;
+                height: auto;
+                min-height: 300px;
+            }
+
+            .task {
+                background-color: #FEEAC9;
+                margin: 20px;
+                padding: 15px;
+                border-radius: 15px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap; /* Allow button to wrap on very small screens */
+                gap: 10px;
+
+                h2 {
+                    font-size: 20px;
+                    word-break: break-all;
+                }
+
+                button {
+                    padding: 10px 15px;
+                    color: #FEEAC9;
+                    background-color: green;
+                    border: none;
+                    transition: all ease 0.3s;
+                    font-size: 14px;
+                    border-radius: 10px;
+                    flex-shrink: 0;
+                }
+            }
+        }
+    }
+}
+
+/* --- DAILY PLANNER --- */
+#Daily_Planner {
+    h1 {
+        margin: 20px;
+        margin-top: 60px;
+        font-size: clamp(30px, 6vw, 50px);
+        font-weight: 100;
+        text-align: center;
+    }
+
+    #main2 {
+        height: auto;
+        max-height: 80vh;
+        width: 90%;
+        max-width: 1200px;
+        margin: auto;
+        border-radius: 20px;
+        background-color: #f47a7a;
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        overflow-y: auto;
+
+        div {
+            width: 48%;
+            height: 50px;
+            background-color: #FEEAC9;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            display: flex;
+            position: relative;
+            
+            @include mobile {
+                width: 100%; /* Full width on mobile */
+            }
+
+            h3 {
+                margin-left: 10px;
+                align-self: center;
+                font-size: 10px;
+                position: absolute;
+                top: 2px;
+                left: 5px;
+                color: #555;
+            }
+
+            input {
+                height: 100%;
+                width: 100%;
+                border: none;
+                background-color: transparent;
+                outline: none;
+                font-size: 18px;
+                padding: 5px 15px;
+                padding-top: 15px;
+            }
+        }
+    }
+}
+
+/* --- MOTIVATION --- */
+#Motivation {
+    h1 {
+        margin: 20px;
+        margin-top: 60px;
+        font-size: clamp(35px, 7vw, 60px);
+        font-weight: 100;
+        text-align: center;
+    }
+
+    #motivebox {
+        width: 80%;
+        max-width: 800px;
+        margin: auto;
+        border-radius: 20px;
+        background-image: url("https://images.unsplash.com/photo-1604618504394-bf572163ec23?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+        background-size: cover;
+        background-position: center;
+        padding: 40px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Center content vertically */
+        align-items: center;
+        gap: 30px;
+        border: black 5px solid;
+        min-height: 400px;
+        color: white;
+        text-align: center;
+
+        p {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(20px, 4vw, 40px); /* Responsive font */
+            line-height: 1.2;
+
+            i {
+                font-size: 40px;
+                margin-bottom: 10px;
+            }
+        }
+
+        h3 {
+            font-size: clamp(18px, 3vw, 30px);
+            font-weight: 100;
+        }
+    }
+}
+
+/* --- POMODORO --- */
+#Pomodoro_Timer {
+    h1 {
+        margin: 20px;
+        margin-top: 60px;
+        font-size: clamp(35px, 8vw, 60px);
+        font-weight: 600;
+        width: 100%;
+        text-align: center;
+        position: relative; /* Remove absolute to prevent overlap */
+    }
+
+    #pomodoro {
+        height: 80%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        #time {
+            font-size: clamp(80px, 20vw, 160px); /* Massive responsive font */
+            font-weight: 500;
+            text-align: center;
+        }
+
+        #controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+
+            button {
+                margin: 10px;
+                border-radius: 10px;
+                border: 3px solid black;
+                background-color: #F47A7A;
+                color: black;
+                font-size: 20px;
+                padding: 10px 30px;
+                cursor: pointer;
+                transition: all ease 0.3s;
+                
+                @include mobile {
+                    width: 100px; /* Uniform width on mobile */
+                    padding: 10px;
+                }
+            }
+        }
+    }
+}
+
+button:active {
+    scale: 95%;
+}
+
+.elem:hover {
+    scale: 106%;
+    box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.463); 
+}
+
+.elem:active {
+    scale: 30%;
+}
